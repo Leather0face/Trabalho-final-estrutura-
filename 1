@@ -1,0 +1,42 @@
+import random
+
+class JogoForca:
+    def __init__(self):
+        self.palavras = ["python", "programacao", "jogo", "computador", "desenvolvimento"]
+        self.palavra_secreta = random.choice(self.palavras)
+        self.palavra_descoberta = ["_" for _ in self.palavra_secreta]
+        self.tentativas_maximas = 6
+        self.tentativas = 0
+        self.letras_erradas = []
+
+    def exibir_palavra(self):
+        return " ".join(self.palavra_descoberta)
+
+    def tentar_letra(self, letra):
+        if letra in self.palavra_secreta:
+            for i in range(len(self.palavra_secreta)):
+                if self.palavra_secreta[i] == letra:
+                    self.palavra_descoberta[i] = letra
+            if "_" not in self.palavra_descoberta:
+                return "Vitória! A palavra é: " + self.palavra_secreta
+        else:
+            self.letras_erradas.append(letra)
+            self.tentativas += 1
+            if self.tentativas == self.tentativas_maximas:
+                return "Você perdeu. A palavra era: " + self.palavra_secreta
+        return None
+
+# Inicializar o jogo
+jogo = JogoForca()
+
+# Loop principal do jogo
+while True:
+    print("Palavra: ", jogo.exibir_palavra())
+    print("Letras erradas: ", ", ".join(jogo.letras_erradas))
+    
+    palpite = input("Digite uma letra: ").lower()
+
+    resultado = jogo.tentar_letra(palpite)
+    if resultado:
+        print(resultado)
+        break
